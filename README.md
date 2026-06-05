@@ -13,7 +13,8 @@ The project intentionally does not vendor UI Automata or DesktopCtl. It treats t
 ## Install
 
 ```powershell
-cd D:\克里斯蒂娜\repos\agent-Proteus
+git clone https://github.com/3023073486/agent-Proteus.git
+cd agent-Proteus
 python -m pip install -e .
 agent-proteus --json doctor
 ```
@@ -30,14 +31,22 @@ mcp_servers:
       - "-m"
       - "agent_proteus"
       - "mcp"
-    env:
-      PROTEUS_BRIDGE: "D:/nodejs/proteus-bridge.cmd"
-      # Optional if running a UI Automata HTTP service:
-      # UI_AUTOMATA_URL: "http://127.0.0.1:7860"
-      # Optional if desktopctl is not on PATH:
-      # DESKTOPCTL: "C:/path/to/desktopctl.exe"
     timeout: 180
     connect_timeout: 60
+```
+
+If `proteus-bridge` or `desktopctl` is not on `PATH`, add explicit paths:
+
+```yaml
+mcp_servers:
+  agent_proteus:
+    command: "python"
+    args: ["-m", "agent_proteus", "mcp"]
+    env:
+      PROTEUS_BRIDGE: "C:/path/to/proteus-bridge.cmd"
+      DESKTOPCTL: "C:/path/to/desktopctl.exe"
+      # Optional if running a UI Automata HTTP service:
+      # UI_AUTOMATA_URL: "http://127.0.0.1:7860"
 ```
 
 After Hermes starts, it should discover tools named like:
