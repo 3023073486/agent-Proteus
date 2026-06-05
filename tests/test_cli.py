@@ -5,6 +5,7 @@ import os
 import shutil
 import subprocess
 import sys
+import zipfile
 
 
 def _resolve_cli() -> list[str]:
@@ -53,3 +54,14 @@ def test_windows_json_is_machine_readable() -> None:
     data = _json(["windows"])
     assert isinstance(data, dict)
     assert "ok" in data
+
+
+def test_layout_audit_reports_missing_required_ref(tmp_path) -> None:
+    project = tmp_path / "empty.pdsprj"
+    with zipfile.ZipFile(project, "w") as zf:
+        zf.writestr("ROOT.DSN", b"ISIS SCHEMATIC FILE")
+
+    data = _json(["layout-audit", "--project", str(project), "--require", "R8"])
+    assert data["ok"] is False
+    assert data["part_count"] == 0
+    assert {"type": "missing_ref", "ref": "R8"} in data["issues"]

@@ -88,6 +88,17 @@ TOOLS: list[dict[str, Any]] = [
         "description": "Run a proteus-bridge JSON action script.",
         "inputSchema": schema({"file": {"type": "string"}}, ["file"]),
     },
+    {
+        "name": "agent_proteus_layout_audit",
+        "description": "Audit a Proteus .pdsprj for component spacing, overlap risk, and missing reference designators.",
+        "inputSchema": schema(
+            {
+                "project": {"type": "string"},
+                "required_refs": {"type": "array", "items": {"type": "string"}, "default": []},
+            },
+            ["project"],
+        ),
+    },
 ]
 
 
@@ -123,6 +134,8 @@ def call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         return text_result(agent.screenshot(out=arguments.get("out"), include_image=arguments.get("include_image", False)))
     if name == "agent_proteus_run_script":
         return text_result(agent.run_script(file=arguments["file"]))
+    if name == "agent_proteus_layout_audit":
+        return text_result(agent.layout_audit(project=arguments["project"], required_refs=arguments.get("required_refs") or []))
     raise ValueError(f"Unknown tool: {name}")
 
 

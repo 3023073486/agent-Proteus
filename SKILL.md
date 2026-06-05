@@ -30,6 +30,7 @@ Open or focus a project:
 agent-proteus --json launch --project "C:\ProteusLCD1602_8CH\LCD1602_8CH_TEMP.pdsprj" --no-wait
 agent-proteus --json focus --title-match "Proteus|ISIS"
 agent-proteus --json observe --target Proteus
+agent-proteus --json layout-audit --project "C:\ProteusLCD1602_8CH\LCD1602_8CH_TEMP.pdsprj" --require R8
 ```
 
 Observation order is UI Automata, DesktopCtl, then proteus-bridge window
@@ -49,6 +50,12 @@ agent-proteus --json screenshot --out "C:\tmp\proteus-check.png"
 
 Use screenshots sparingly: capture at checkpoints, after suspicious dialogs, or
 when a human needs to verify layout. Do not screenshot after every click.
+
+## Layout Audit
+
+Before wiring or saving after coordinate edits, run `layout-audit` on the
+project. Treat `too_close` and `missing_ref` issues as blockers, especially when
+placing repeated sensors, pull-up resistors, and support parts.
 
 ## Hermes MCP
 

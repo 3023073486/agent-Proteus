@@ -72,6 +72,7 @@ agent-proteus --json focus --title-match "Proteus|ISIS"
 agent-proteus --json keys "{ESC}"
 agent-proteus --json click 500 420 --relative --title-match "Proteus"
 agent-proteus --json drag 400 300 700 300 --relative --duration-ms 450
+agent-proteus --json layout-audit --project "C:\ProteusLCD1602_8CH\LCD1602_8CH_TEMP.pdsprj" --require R8
 ```
 
 ## Observation Strategy
@@ -98,6 +99,8 @@ This project borrows the useful parts of the
 - Screenshots are checkpoint evidence, not the default loop.
 - Future preview commands should publish truthful artifacts from real Proteus
   state, not fake renders.
+- `layout-audit` can be used as a pre-wiring gate to catch too-close components
+  and missing reference designators before an agent saves a messy schematic.
 
 See `HARNESS.md`, `SKILL.md`, and `tests/TEST.md` for the agent workflow and test
 plan.
@@ -116,6 +119,8 @@ fallback.
 ## Safety Notes
 
 - Prefer `agent-proteus run-script` for repeatable coordinate batches.
+- Run `agent-proteus layout-audit` before wiring or saving after coordinate
+  edits; treat overlap/too-close findings as blockers.
 - Do not save Proteus projects until the layout is visually verified.
 - Prefer labels/terminals and deterministic placement over long guessed wires.
 - Use observation after UI-changing actions, not after every single click.

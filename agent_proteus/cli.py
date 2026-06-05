@@ -66,6 +66,10 @@ def build_parser() -> argparse.ArgumentParser:
     run_script = subparsers.add_parser("run-script", help="Run a proteus-bridge JSON action script.")
     run_script.add_argument("file", help="Script JSON path.")
 
+    layout_audit = subparsers.add_parser("layout-audit", help="Audit a Proteus .pdsprj for component spacing and missing refs.")
+    layout_audit.add_argument("--project", required=True, help="Proteus .pdsprj path.")
+    layout_audit.add_argument("--require", action="append", default=[], help="Required reference designator, repeatable.")
+
     subparsers.add_parser("mcp", help="Run the stdio MCP server.")
     return parser
 
@@ -109,6 +113,8 @@ def run_command(args: argparse.Namespace) -> dict[str, Any]:
         return agent.screenshot(out=args.out, include_image=args.include_image)
     if args.command == "run-script":
         return agent.run_script(file=args.file)
+    if args.command == "layout-audit":
+        return agent.layout_audit(project=args.project, required_refs=args.require)
     raise ValueError(f"Unhandled command: {args.command}")
 
 

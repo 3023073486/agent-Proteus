@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from agent_proteus.backends import DesktopCtlBackend, ProteusBridgeBackend, UiAutomataBackend
+from agent_proteus.layout_audit import audit_project
 
 
 class AgentProteus:
@@ -71,3 +72,6 @@ class AgentProteus:
 
     def run_script(self, file: str) -> dict[str, Any]:
         return self.proteus.run_script(file=file)
+
+    def layout_audit(self, project: str, required_refs: list[str] | None = None) -> dict[str, Any]:
+        return audit_project(project, required_refs=required_refs)
