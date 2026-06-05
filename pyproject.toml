@@ -20,6 +20,9 @@ classifiers = [
 ]
 dependencies = []
 
+[project.optional-dependencies]
+test = ["pytest>=8"]
+
 [project.scripts]
 agent-proteus = "agent_proteus.cli:main"
 

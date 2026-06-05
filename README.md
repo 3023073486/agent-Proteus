@@ -19,6 +19,9 @@ python -m pip install -e .
 agent-proteus --json doctor
 ```
 
+The folder name does not matter. The examples use a plain ASCII directory so
+new users do not inherit machine-specific Chinese paths.
+
 ## Hermes MCP Config
 
 Add this to Hermes `config.yaml`:
@@ -80,6 +83,35 @@ agent-proteus --json drag 400 300 700 300 --relative --duration-ms 450
 3. `proteus-bridge windows` fallback.
 
 This makes Proteus work today with `proteus-bridge`, while allowing richer live-ish observation when UI Automata or DesktopCtl are installed.
+
+## CLI-Anything Harness Notes
+
+This project borrows the useful parts of the
+[CLI-Anything](https://github.com/HKUDS/CLI-Anything) harness philosophy:
+
+- Proteus remains the real backend; `agent-Proteus` is an interface to Proteus,
+  not a schematic simulator.
+- Commands are designed for stable `--json` agent use from any working
+  directory.
+- Observation is explicit and layered, so an agent knows whether it has UI tree,
+  visual/OCR, or window-only state.
+- Screenshots are checkpoint evidence, not the default loop.
+- Future preview commands should publish truthful artifacts from real Proteus
+  state, not fake renders.
+
+See `HARNESS.md`, `SKILL.md`, and `tests/TEST.md` for the agent workflow and test
+plan.
+
+## Tests
+
+```powershell
+python -m pip install -e .
+python -m pytest tests -v
+```
+
+Set `AGENT_PROTEUS_FORCE_INSTALLED=1` to require the installed
+`agent-proteus` command instead of the development `python -m agent_proteus`
+fallback.
 
 ## Safety Notes
 
