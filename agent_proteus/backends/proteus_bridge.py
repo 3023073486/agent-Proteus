@@ -25,7 +25,17 @@ class ProteusBridgeBackend:
         return self._run(["doctor"])
 
     def windows(self) -> dict[str, Any]:
-        return self._run(["windows"])
+        result = self._run(["windows"])
+        stdout = result.get("stdout")
+        if isinstance(stdout, list):
+            result["stdout"] = [
+                item
+                for item in stdout
+                if item.get("ProcessName") == "PDS"
+                or "Proteus 8 Professional" in str(item.get("Title", ""))
+                or "Labcenter Electronics" in str(item.get("ProcessPath", ""))
+            ]
+        return result
 
     def launch(self, project: str | None = None, wait: bool = True) -> dict[str, Any]:
         args = ["launch"]

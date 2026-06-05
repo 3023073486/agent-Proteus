@@ -10,7 +10,12 @@ def dumps(data: Any) -> str:
 
 
 def print_json(data: Any) -> None:
-    sys.stdout.write(dumps(data) + "\n")
+    text = dumps(data) + "\n"
+    try:
+        sys.stdout.write(text)
+    except UnicodeEncodeError:
+        safe = text.encode(sys.stdout.encoding or "utf-8", errors="backslashreplace")
+        sys.stdout.buffer.write(safe)
 
 
 def ok(data: Any = None, **extra: Any) -> dict[str, Any]:
