@@ -1,0 +1,13 @@
+mcp_servers:
+  agent_proteus:
+    command: "python"
+    args:
+      - "-m"
+      - "agent_proteus"
+      - "mcp"
+    env:
+      PROTEUS_BRIDGE: "D:/nodejs/proteus-bridge.cmd"
+      # UI_AUTOMATA_URL: "http://127.0.0.1:7860"
+      # DESKTOPCTL: "C:/path/to/desktopctl.exe"
+    timeout: 180
+    connect_timeout: 60
